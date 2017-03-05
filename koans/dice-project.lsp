@@ -22,15 +22,19 @@
 
 ;;  YOU WRITE THIS PART:
 (defclass dice-set ()
-  () ;; WRITE DICE-SET CLASS BODY HERE
+  ((values)) ;; WRITE DICE-SET CLASS BODY HERE
 )
 
 (defmethod get-values ((object dice-set))
   ;; WRITE GET-VALUES METHOD DEFINITION HERE
+  (slot-value object 'values)
 )
 
 (defmethod roll (how-many (object dice-set))
-  ;; WRITE ROLL METHOD DEFINITION HERE
+  (setf (slot-value object 'values) '()) ;; WRITE ROLL METHOD DEFINITION HERE
+  (dotimes (x how-many)
+    (push  (+ 1 (random 6)) (slot-value object 'values)))
+  (get-values object)
 )
 
 

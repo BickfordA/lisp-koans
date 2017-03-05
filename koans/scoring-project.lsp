@@ -48,10 +48,27 @@
 ; More scoring examples are given in the tests below:
 ;
 ; Your goal is to write the score method.
+(defun score-die (count single-mult three-score)
+  (+ (* (mod count 3) single-mult)
+     (* (floor (/ count 3)) three-score)))
+
 
 (defun score (dice)
   ; You need to write this method
-)
+
+  (let ((dice-count 0)
+        (score 0))
+    (do ((i 1 (1+ i)))
+        ((> i 6))
+      (setf dice-count (count i dice))
+      (cond ((eql 1 i)
+               (setf score (+ score (score-die dice-count 100 1000))))
+            ((eql 5 i)
+               (setf score (+ score (score-die dice-count 50  (* 100 i)))))
+            (t
+               (setf score (+ score (score-die dice-count 0 (* 100 i)))))
+            ))
+    score))
 
 (define-test test-score-of-an-empty-list-is-zero
     (assert-equal 0 (score nil)))
